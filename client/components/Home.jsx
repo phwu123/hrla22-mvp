@@ -9,7 +9,6 @@ export default class Home extends Component{
   render() {
     return(
       <div>
-        home
         <CharList />
         <FavoritesList />
       </div>
