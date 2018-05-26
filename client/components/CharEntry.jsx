@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
 
-const CharEntry = (props) => (
-  <div>
-    <img src={props.char} />
-  </div>
-);
+export default class CharEntry extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      show: false
+    }
+  }
 
-export default CharEntry;
+  toggle(e) {
+    this.setState({ show: !this.state.show })
+  }
+
+  render() {
+    return (
+      <div>  
+        <img src={this.props.char} />
+      </div>
+    )
+  }
+}
+

@@ -8,9 +8,10 @@ export default class CharList extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      chars: ['char1','char2','char3'],
+      chars: [],
       genre: '',
-      favorites: ['fav1', 'fav2', 'fav3']
+      favorites: [],
+      show: false
     }
   }
 
@@ -23,7 +24,7 @@ export default class CharList extends Component{
   }
 
   handleToggle(e) {
-
+    this.setState({ show: !this.state.show })
   }
 
   handleChange(e) {
@@ -35,6 +36,7 @@ export default class CharList extends Component{
 
   handleSubmit(e) {
     event.preventDefault();
+    this.setState({ chars: [] })
     axios({
       method: 'POST',
       url: '/api/chars',
@@ -48,12 +50,13 @@ export default class CharList extends Component{
         params: { genre: this.state.genre }
       }).then((data) => {
         console.log('data from axios get', data);
-        this.setState({ chars: data.image })
-        console.log('images?', this.state.chars)
+        data.data.forEach(item => {
+          this.setState({ chars: [...this.state.chars, item.image] })
+        })
       })
         .catch((err) => {
-          console.log('err in axios get', err)
-        })
+           console.log('err in axios get', err)
+         })
     })
       .catch((err) => {
         console.log('err in axios post', err)
@@ -63,9 +66,8 @@ export default class CharList extends Component{
   render() {
     return(
       <div>
-        charlist
+        Favorites
         <div>
-          favorites
           {this.state.favorites.map((series, i) => (
             <FavoritesEntry
               series={series}
@@ -89,11 +91,9 @@ export default class CharList extends Component{
         </div>
         <div>
           {this.state.chars.map((char, i) => (
-      
             <CharEntry 
               char={char}
               key={i}
-              index={i}
             />
           ))}
           

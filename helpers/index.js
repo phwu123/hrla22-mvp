@@ -29,7 +29,7 @@ const store = (collectionSeries, genre, callback) => {
       id_series: show.id,
       name_series: show.attributes.titles.en,
       desc_series: show.attributes.synopsis,
-      image: show.attributes.posterImage.medium,
+      image: show.attributes.posterImage.large,
       smallImage: show.attributes.posterImage.small,
       genre: genre
     };

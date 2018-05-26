@@ -12,8 +12,9 @@ const charCtrl = {
           console.log('err char get /api/chars');
           res.status(404);
         } else {
-          console.log('success char get /api/chars', data);
-          res.status(200).send(data);
+          console.log('success char get /api/chars');
+            res.status(200).send(data);
+            console.log('data sent', data.data)
         }
       })
   },
