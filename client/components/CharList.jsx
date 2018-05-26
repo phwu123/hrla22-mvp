@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
 import Home from './Home.jsx';
 import CharEntry from './CharEntry.jsx';
+import FavoritesEntry from './FavoritesEntry.jsx';
 import axios from 'axios';
 
 export default class CharList extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      char: '',
       chars: ['char1','char2','char3'],
-      genre: ''
+      genre: '',
+      favorites: ['fav1', 'fav2', 'fav3']
     }
+  }
+
+  addFavorite(e) {
+    
+  }
+
+  deleteFavorite(index) {
+
+  }
+
+  handleToggle(e) {
+
   }
 
   handleChange(e) {
@@ -18,9 +31,6 @@ export default class CharList extends Component{
     if (e.target.checked) {
       this.setState({ genre: e.target.value })
     }
-    // axios.post('/api/chars', {
-    //   genre: e
-    // })
   }
 
   handleSubmit(e) {
@@ -31,13 +41,38 @@ export default class CharList extends Component{
       data: {
         genre: this.state.genre
       }
-    });
+    }).then(() => {
+      axios({
+        method: 'GET',
+        url: '/api/chars',
+        params: { genre: this.state.genre }
+      }).then((data) => {
+        console.log('data from axios get', data);
+        this.setState({ chars: data.image })
+        console.log('images?', this.state.chars)
+      })
+        .catch((err) => {
+          console.log('err in axios get', err)
+        })
+    })
+      .catch((err) => {
+        console.log('err in axios post', err)
+      })
   }
 
   render() {
     return(
       <div>
         charlist
+        <div>
+          favorites
+          {this.state.favorites.map((series, i) => (
+            <FavoritesEntry
+              series={series}
+              index={i}
+            />
+          ))}
+        </div>
         <div>
           <form>
             <input onChange={e => this.handleChange(e)} type="radio" name="genre" value="action" />Action
@@ -54,6 +89,7 @@ export default class CharList extends Component{
         </div>
         <div>
           {this.state.chars.map((char, i) => (
+      
             <CharEntry 
               char={char}
               key={i}

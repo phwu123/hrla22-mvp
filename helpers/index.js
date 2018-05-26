@@ -19,24 +19,25 @@ let getCharactersBySeriesGenre = (genre, callback) => {
 
 }
 
-const store = (collectionSeries, callback) => {
+const store = (collectionSeries, genre, callback) => {
   if (collectionSeries.message === 'Not Found') {
     return callback(collectionSeries, null);
   }
-  console.log('collectionseries ', collectionSeries)
-  const seriesInfo = collectionSeries.map(show => {
+
+  const seriesInfo = collectionSeries.data.map(show => {
     return {
       id_series: show.id,
       name_series: show.attributes.titles.en,
-      desc_series: show.attributes.synopsis
+      desc_series: show.attributes.synopsis,
+      image: show.attributes.posterImage.medium,
+      smallImage: show.attributes.posterImage.small,
+      genre: genre
     };
   });
-
   const batch = Series.collection.initializeUnorderedBulkOp();
   seriesInfo.forEach(series => {
     batch
       .find({ id_series: series.id })
-      .limit(25)
       .upsert()
       .replaceOne(series)
   });
