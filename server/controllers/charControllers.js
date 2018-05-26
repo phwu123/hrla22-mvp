@@ -1,4 +1,6 @@
 const { Char } = require('../../db/models/charModels');
+const { getCharactersBySeriesGenre } = require('../../helpers');
+const { store } = require('../../helpers');
 
 const charCtrl = {
   get: (req, res) => {
@@ -13,14 +15,20 @@ const charCtrl = {
     })
   },
   post: (req, res) => {
-    const newChar = new Char(req.body);
-    newChar.save(err => {
+    getCharactersBySeriesGenre(req.body.genre, (err, data) => {
       if (err) {
-        console.log('err char post /api/chars');
-        res.status(400);
+        console.log('err getting from api ', err);
       } else {
-        console.log('success char post /api/chars');
-        res.status(201).send(newChar);
+        const series = JSON.parse(data);
+
+        store(series, (err, results) => {
+          if (err) {
+            return res.send(err);
+          } else {
+            console.log('stored data: ', results)
+            res.send(results);
+          }
+        })
       }
     })
   }

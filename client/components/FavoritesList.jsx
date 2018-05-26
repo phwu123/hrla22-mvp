@@ -10,16 +10,17 @@ export default class FavoritesList extends Component{
       list: ['item1','item2','item3']
     }
   }
+
   render() {
     return(
       <div>
         favorites
-        {this.state.list.map((series, i) => {
-          <FavoriteEntry
+        {this.state.list.map((series, i) => (
+          <FavoritesEntry
             series={series}
             index={i}
           />
-        })}
+        ))}
       </div>
     )
   }
