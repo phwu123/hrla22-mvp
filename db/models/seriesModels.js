@@ -6,7 +6,8 @@ const seriesSchema = mongoose.Schema({
   desc_series: String,
   image: String,
   smallImage: String,
-  genre: String
+  genre: String,
+  popularity: String
 })
 
 const Series = mongoose.model('Series', seriesSchema);

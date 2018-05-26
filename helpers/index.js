@@ -31,7 +31,8 @@ const store = (collectionSeries, genre, callback) => {
       desc_series: show.attributes.synopsis,
       image: show.attributes.posterImage.large,
       smallImage: show.attributes.posterImage.small,
-      genre: genre
+      genre: genre,
+      popularity: show.attributes.popularityRank
     };
   });
   const batch = Series.collection.initializeUnorderedBulkOp();

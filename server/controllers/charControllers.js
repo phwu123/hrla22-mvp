@@ -7,6 +7,7 @@ const charCtrl = {
   get: (req, res) => {
     Series.find( req.query )
       .limit(20)
+      .sort()
       .exec((err, data) => {
         if (err) {
           console.log('err char get /api/chars');

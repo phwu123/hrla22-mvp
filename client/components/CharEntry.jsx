@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CharDetails from './CharDetails.jsx';
 
 export default class CharEntry extends Component{
   constructor(props){
@@ -15,7 +16,8 @@ export default class CharEntry extends Component{
   render() {
     return (
       <div>  
-        <img src={this.props.char} />
+        <img src={this.props.char.image} onClick={e => this.toggle(e)}/>
+        {this.state.show && <CharDetails  details={this.props.char}/>}
       </div>
     )
   }

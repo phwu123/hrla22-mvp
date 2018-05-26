@@ -11,7 +11,8 @@ export default class CharList extends Component{
       chars: [],
       genre: '',
       favorites: [],
-      show: false
+      show: false,
+      popularity: []
     }
   }
 
@@ -49,9 +50,13 @@ export default class CharList extends Component{
         url: '/api/chars',
         params: { genre: this.state.genre }
       }).then((data) => {
-        console.log('data from axios get', data);
+        data.data.sort((a,b) => {
+          return a.popularity - b.popularity;
+        })
+        console.log('data sorted :', data);
         data.data.forEach(item => {
-          this.setState({ chars: [...this.state.chars, item.image] })
+          this.setState({ chars: [...this.state.chars, item ]});
+
         })
       })
         .catch((err) => {
