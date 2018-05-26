@@ -6,7 +6,7 @@ const { Series } = require('../../db/models/seriesModels');
 const charCtrl = {
   get: (req, res) => {
     Series.find( req.query )
-      .limit(20)
+      .limit(50)
       .sort()
       .exec((err, data) => {
         if (err) {

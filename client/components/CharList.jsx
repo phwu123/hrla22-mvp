@@ -39,33 +39,56 @@ export default class CharList extends Component{
     event.preventDefault();
     this.setState({ chars: [] })
     axios({
-      method: 'POST',
+      method: 'GET',
       url: '/api/chars',
-      data: {
-        genre: this.state.genre
+      params: { genre: this.state.genre}
+    }).then((data) => {
+      data.data.sort((a,b) => {
+        return a.popularity - b.popularity;
+      })
+      console.log('data sorted :', data);
+      data.data.forEach(item => {
+        this.setState({ chars: [...this.state.chars, item ]});
+      })      
+      
+      if (this.state.chars.length !== 0) {
+        return;
       }
-    }).then(() => {
-      axios({
-        method: 'GET',
-        url: '/api/chars',
-        params: { genre: this.state.genre }
-      }).then((data) => {
-        data.data.sort((a,b) => {
-          return a.popularity - b.popularity;
-        })
-        console.log('data sorted :', data);
-        data.data.forEach(item => {
-          this.setState({ chars: [...this.state.chars, item ]});
 
-        })
+      axios({
+        method: 'POST',
+        url: '/api/chars',
+        data: {
+          genre: this.state.genre
+        }
+      }).then(() => {
+        this.handleSubmit(e);
+        // axios({
+        //   method: 'GET',
+        //   url: '/api/chars',
+        //   params: { genre: this.state.genre }
+        // }).then((data) => {
+        //   data.data.sort((a,b) => {
+        //     return a.popularity - b.popularity;
+        //   })
+        //   console.log('data sorted :', data);
+        //   data.data.forEach(item => {
+        //     this.setState({ chars: [...this.state.chars, item ]});
+  
+        //   })
+        // })
+        //   .catch((err) => {
+        //      console.log('err in axios get', err)
+        //    })
       })
         .catch((err) => {
-           console.log('err in axios get', err)
-         })
+          console.log('err in axios post', err)
+        })
     })
       .catch((err) => {
-        console.log('err in axios post', err)
+        console.log('err in first get', err)
       })
+    
   }
 
   render() {
