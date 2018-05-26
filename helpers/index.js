@@ -4,7 +4,7 @@ const { Series } = require('../db/models/seriesModels.js')
 let getCharactersBySeriesGenre = (genre, callback) => {
 
   let options = {
-    url: 'https://kitsu.io/api/edge/anime?filter[genres]=' + genre,
+    url: 'https://kitsu.io/api/edge/anime?page[limit]=20&page[offset]=0&filter[genres]=' + genre,
     headers: {
       'Accept': 'application/vnd.api+json',
       'Content-type': 'application/vnd.api+json'
