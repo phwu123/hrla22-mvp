@@ -25,7 +25,6 @@ const charCtrl = {
         console.log('err getting from api ', err);
       } else {
         const series = JSON.parse(data);
-
         store(series, req.body.genre, (err, results) => {
           if (err) {
             return res.send(err);
